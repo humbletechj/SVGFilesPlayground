@@ -1,9 +1,11 @@
 import Foundation
 
+// Protocol for the Shape component
 protocol Shape {
     var svgDescription: String { get }
 }
 
+// Concrete leaf shapes implementing the Shape protocol
 class Circle: Shape {
     let cx: Int
     let cy: Int
@@ -21,6 +23,7 @@ class Circle: Shape {
         self.stroke = stroke
     }
 
+    // Generates the SVG representation of the circle
     var svgDescription: String {
         return "<circle cx=\"\(cx)\" cy=\"\(cy)\" r=\"\(r)\" fill=\"\(fill)\" stroke-width=\"\(strokeWidth)\" stroke=\"\(stroke)\"/>"
     }
@@ -45,6 +48,7 @@ class Rectangle: Shape {
         self.stroke = stroke
     }
 
+    // Generates the SVG representation of the rectangle
     var svgDescription: String {
         return "<rect x=\"\(x)\" y=\"\(y)\" width=\"\(width)\" height=\"\(height)\" fill=\"\(fill)\" stroke-width=\"\(strokeWidth)\" stroke=\"\(stroke)\"/>"
     }
@@ -63,6 +67,7 @@ class Polygon: Shape {
         self.stroke = stroke
     }
 
+    // Generates the SVG representation of the polygon
     var svgDescription: String {
         return "<polygon points=\"\(points)\" fill=\"\(fill)\" stroke-width=\"\(strokeWidth)\" stroke=\"\(stroke)\"/>"
     }
@@ -71,10 +76,12 @@ class Polygon: Shape {
 class ShapeGroup: Shape {
     private(set) var shapes: [Shape] = []
 
+    // Adds a shape to the group (Composite pattern method)
     func addShape(_ shape: Shape) {
         shapes.append(shape)
     }
 
+    // Generates the SVG representation of the shape group
     var svgDescription: String {
         var svgStrings = [String]()
         for shape in shapes {
@@ -84,6 +91,7 @@ class ShapeGroup: Shape {
     }
 }
 
+// Function to create and open an SVG file
 func createSVGFile(shapes: [Shape], width: Int, height: Int, fileName: String) {
     let svgHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"\(width)\" height=\"\(height)\">\n"
     let svgFooter = "</svg>"
@@ -126,12 +134,14 @@ let circle2 = Circle(cx: 110, cy: 125, r: 50, fill: "green", strokeWidth: 5, str
 let rectangle2 = Rectangle(x: 165, y: 75, width: 100, height: 100, fill: "red", strokeWidth: 5, stroke: "rgb(0,0,0)")
 let polygon1 = Polygon(points: "270,150 320,75 340,160", fill: "green", strokeWidth: 5, stroke: "rgb(0,0,0)")
 
+// Add leaf shapes to the composite object (Composite pattern method)
 group.addShape(circle1)
 group.addShape(rectangle1)
 group.addShape(circle2)
 group.addShape(rectangle2)
 group.addShape(polygon1)
 
+// Create and open the SVG file with the composite object and leaf shapes
 createSVGFile(shapes: [group], width: 500, height: 500, fileName: "supersvg.svg")
 
 
