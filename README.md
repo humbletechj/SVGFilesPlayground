@@ -1,0 +1,2 @@
+# SVGFilesPlayground
+ for educational purposes
